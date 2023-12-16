@@ -1,7 +1,7 @@
 # International House Frontend
 
 ## Description
-The International House Admin Panel is a responsive events management and staffing portal developed using React/Next.js and Tailwind CSS. Designed to cater to over 100 staff members at the University of Chicago International House, the application streamlines event scheduling and staff management processes. It features a user-friendly interface, robust backend integration with Flask, and secure file storage using Amazon S3.
+The International House Admin Panel is a responsive events management and staffing portal developed using React/Next.js, Tailwind CSS, and Flask. Designed to cater to over 100 staff members at the University of Chicago International House, the application streamlines event scheduling and staff management processes. It features a user-friendly interface, robust backend integration with Flask, and secure file storage using Amazon S3.
 
 ## Technologies Used
 - **Frontend**: React, Next.js, Tailwind CSS
