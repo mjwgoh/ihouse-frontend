@@ -22,7 +22,7 @@ The International House Admin Panel, a web application at the University of Chic
 - Integration with Amazon S3 for file storage
 
 ## Backend Libraries
-- **pandas**: For creating and managing Excel spreadsheets.
+- **pandas and openpyxl**: For data wrangling, creating, and managing Excel spreadsheets.
 - **PyJWT**: For validating JWT tokens.
 - **Pymongo**: For secure connectivity with the MongoDB database.
 
