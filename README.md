@@ -1,27 +1,35 @@
-# International House Frontend
+# International House Admin Panel
 
-## Description
-The International House Admin Panel is a responsive events management and staffing portal developed using React/Next.js, Tailwind CSS, and Flask. Designed to cater to over 100 staff members at the University of Chicago International House, the application streamlines event scheduling and staff management processes. It features a user-friendly interface, robust backend integration with Flask, and secure file storage using Amazon S3.
+## Overview
+The International House Admin Panel, a web application at the University of Chicago International House, facilitates efficient event and staff management. It streamlines administrative tasks and enhances communication.
 
-## Technologies Used
+## Technologies
 - **Frontend**: React, Next.js, Tailwind CSS
 - **Backend**: Flask, RESTful APIs
 - **Database**: MongoDB
-- **Authentication**: Auth.js
+- **Authentication**: Auth.js, JWT, Google OAuth2
 - **File Storage**: Amazon S3
-- **Testing and Deployment**: Cypress, CI/CD Practices
+- **Testing & Deployment**: Cypress, PyTest, CI/CD
 
-## Features
-- Event scheduling and management interface
+## Special Features
+- **Automated Excel Spreadsheet Creation**: Generates spreadsheets for event organization, aiding facilities management
+- **Staffing Reminders**: Automatically issues staffing requests for under-staffed events, ensuring optimal staff allocation
+
+## General Features
+- Event scheduling and management
 - Staff management tools
-- Secure user authentication and session management
-- File storage integration with Amazon S3
+- Secure authentication and session management
+- Integration with Amazon S3 for file storage
+
+## Backend Libraries
+- **pandas**: For creating and managing Excel spreadsheets
+- **PyJWT**: For validating JWT tokens
+- **Pymongo**: For secure connectivity with the MongoDB database
 
 ## Security
-- JWT tokens and Google OAuth2 are used for secure authentication.
+- Utilizes JWT tokens and Google OAuth2 for secure user authentication
 
-### Prerequisites
-Ensure you have the following installed:
+## Prerequisites
 - Node.js and npm
 - Python and Flask
 - MongoDB
