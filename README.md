@@ -1,4 +1,4 @@
-# International House Admin Panel
+# International House Admin Portal
 
 ![image](https://github.com/mjwgoh/ihouse-frontend/assets/86610705/21eddd72-1ba4-400b-85a7-4a499b6b461c)
 ![image](https://github.com/mjwgoh/ihouse-frontend/assets/86610705/620b56d8-47e6-45a1-bc70-7c2fad05c032)
@@ -6,7 +6,9 @@
 
 
 ## Overview
-The International House Admin Panel is a full-stack designed and developed for the University of Chicago's International House. It facilitates efficient event and staff management and is used in production by 100+ staff and fellows. It streamlines administrative tasks and enhances communication. The product development of the portal was led using Sketch and Asana, with a focus on responsive design. Usability studies and UX interviews were conducted to ensure a user-friendly experience.
+The International House Admin Panel is a full-stack designed and developed for the University of Chicago's International House. It facilitates efficient event and staff management and is used in production by 100+ staff and fellows, streamlining administrative tasks and enhancing communication. 
+
+Tools used to develop the portal's design include Sketch and Hotjar. Usability studies and UX interviews were conducted to ensure a user-friendly experience.
 
 ## Technologies
 - **Frontend**: React, Next.js, Tailwind CSS
