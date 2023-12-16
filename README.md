@@ -6,7 +6,7 @@
 
 
 ## Overview
-The International House Admin Panel is a full-stack designed and developed for the University of Chicago's International House. It facilitates efficient event and staff management and is used in production by 100+ staff and fellows, streamlining administrative tasks and enhancing communication. 
+The International House Admin Panel is a full-stack portal designed and developed for the University of Chicago's International House. It facilitates efficient event and staff management and is used in production by 100+ staff and fellows, streamlining administrative tasks and enhancing communication. 
 
 Tools used to develop the portal's design include Sketch and Hotjar. Usability studies and UX interviews were conducted to ensure a user-friendly experience.
 
