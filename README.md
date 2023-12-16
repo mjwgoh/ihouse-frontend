@@ -11,6 +11,15 @@ The International House Admin Panel is a responsive events management and staffi
 - **File Storage**: Amazon S3
 - **Testing and Deployment**: Cypress, CI/CD Practices
 
+## Features
+- Event scheduling and management interface
+- Staff management tools
+- Secure user authentication and session management
+- File storage integration with Amazon S3
+
+## Security
+- JWT tokens and Google OAuth2 are used for secure authentication.
+
 ### Prerequisites
 Ensure you have the following installed:
 - Node.js and npm
