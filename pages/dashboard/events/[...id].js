@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/sidebar";
 import TitleBar from "@/components/titlebar";
