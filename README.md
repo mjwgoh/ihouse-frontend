@@ -11,9 +11,6 @@ The International House Admin Panel is a responsive events management and staffi
 - **File Storage**: Amazon S3
 - **Testing and Deployment**: Cypress, CI/CD Practices
 
-## Getting Started
-Follow these instructions to set up the project locally for development and testing purposes.
-
 ### Prerequisites
 Ensure you have the following installed:
 - Node.js and npm
