@@ -19,8 +19,8 @@ Tools used to develop the portal's design include Sketch and Hotjar. Usability s
 - **Testing & Deployment**: Cypress, PyTest, CI/CD
 
 ## Special Features
-- **Automated Excel Spreadsheet Creation**: Generates spreadsheets for event organization, aiding facilities management.
-- **Staffing Reminders**: Automatically issues staffing requests for under-staffed events, ensuring optimal staff allocation.
+- **Automated Excel Spreadsheet Creation**: Generates spreadsheets for event organization, aiding facilities management staff
+- **Staffing Reminders**: Automatically issues staffing requests for under-staffed events, ensuring optimal staff allocation
 - **Fun Loading Pages**: Funny loading pages with 50 custom loading messages (e.g. "rerouting squirrels to the main quad... this may take a while") to improve UX
 
 ## General Features
