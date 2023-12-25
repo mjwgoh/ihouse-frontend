@@ -31,6 +31,7 @@ Tools used to develop the portal's design include Sketch and Hotjar. Usability s
 
 ## Backend Libraries
 - **pandas and openpyxl**: For data wrangling, creating, and managing Excel spreadsheets
+- **Pydantic**: For easy data validation
 - **PyJWT**: For validating JWT tokens
 - **Pymongo**: For secure connectivity with the MongoDB database
 
