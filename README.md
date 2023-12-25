@@ -11,12 +11,12 @@ The International House Admin Panel is a full-stack portal designed and develope
 Tools used to develop the portal's design include Sketch and Hotjar. Usability studies and UX interviews were conducted to ensure a user-friendly experience.
 
 ## Technologies
-- **Frontend**: React, Next.js, Tailwind CSS
-- **Backend**: Flask, RESTful APIs
+- **Frontend**: React (Next.js), Tailwind CSS
+- **Backend**: Flask
 - **Database**: MongoDB
-- **Authentication**: Auth.js, JWT, Google OAuth2
+- **Authentication**: Auth.js (Google OAuth2)
 - **File Storage**: Amazon S3
-- **Testing & Deployment**: Cypress, PyTest, CI/CD
+- **Testing & Deployment**: Cypress, PyTest
 
 ## Special Features
 - **Automated Excel Spreadsheet Creation**: Generates spreadsheets for event organization, aiding facilities management staff
@@ -35,9 +35,5 @@ Tools used to develop the portal's design include Sketch and Hotjar. Usability s
 - **Pymongo**: For secure connectivity with the MongoDB database
 
 ## Security
-- Utilizes JWT tokens and Google OAuth2 for secure user authentication
-
-## Prerequisites
-- Node.js and npm
-- Python and Flask
-- MongoDB
+- Utilizes Auth.js, JWT tokens, and Google OAuth2 for secure user authentication
+- JWT tokens are sent alongside requests by the Next.js frontend, before being validated by the Flask backend
