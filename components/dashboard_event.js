@@ -21,7 +21,7 @@ export default function Dashboard_Event({ eventObj }) {
 
   return (
     <Link href={`/dashboard/events/${event_id}`}>
-      <div className="flex flex-col min-h-fit h-48 min-w-fit w-full border border-white-100 p-5 hover:bg-gray-900">
+      <div className="flex flex-col min-h-fit h-48 min-w-fit w-full border border-white-100 p-5 hover:bg-gray-900 text-white-100">
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <div className="event-title">{event_name}</div>
