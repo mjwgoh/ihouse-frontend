@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import { Inter } from "next/font/google";
+import { useRouter } from "next/router";
 import Sidebar from "@/components/sidebar";
 import TitleBar from "@/components/titlebar";
 import Dropdown from "@/components/dropdown";
 import { submitNewEvent } from "@/pages/api/event";
-import { retrieveFields } from "@/pages/api/fields";
+import { retrieveFields, retrieveEventDetails } from "@/pages/api/fields";
 import LoadingPage from "@/components/loading";
 import CheckboxList from "@/components/checkbox";
-import { useRouter } from "next/router";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Event() {
   const [allFields, setAllFields] = useState({
@@ -23,9 +20,7 @@ export default function Event() {
   });
 
   const router = useRouter();
-
-  const [isLoading, setIsLoading] = useState(true); // Loading state
-
+  const [isLoading, setIsLoading] = useState(true);
   const [allCheckboxes, setAllCheckboxes] = useState({
     partners: [],
     custom_checklist: [],
@@ -36,68 +31,6 @@ export default function Event() {
     custom_checklist: {},
   });
 
-  useEffect(() => {
-    async function fetchData() {
-      const programs = await retrieveFields("programs");
-      const statuses = await retrieveFields("statuses");
-      const cosponsors = await retrieveFields("cosponsors");
-      const caterers = await retrieveFields("caterers");
-      const rooms = await retrieveFields("rooms");
-      const audioVisual = await retrieveFields("av");
-      const eventtype = await retrieveFields("eventtype");
-      const partners = await retrieveFields("partners");
-      const custom_checklist = await retrieveFields("custom_checklist");
-
-      setAllFields({
-        programs,
-        statuses,
-        cosponsors,
-        caterers,
-        rooms,
-        audioVisual,
-        eventtype,
-      });
-
-      setAllCheckboxes({
-        partners,
-        custom_checklist,
-      });
-
-      // Correctly initialize checkbox states
-      const initCheckboxState = (items) =>
-        items.reduce((acc, item) => {
-          acc[item.name] = false;
-          return acc;
-        }, {});
-
-      setCheckboxValues({
-        partners: initCheckboxState(allCheckboxes.partners),
-        custom_checklist: initCheckboxState(allCheckboxes.custom_checklist),
-      });
-
-      setIsLoading(false); // Set loading to false after data is fetched
-    }
-
-    fetchData();
-  }, []);
-
-  const sortedFieldsByName = Object.fromEntries(
-    Object.entries(allFields).map(([key, value]) => [
-      key,
-      value
-        .map((item) => [item.name, "#"])
-        .sort((a, b) => a[0].localeCompare(b[0])),
-    ])
-  );
-
-  const sortedCheckboxesByName = Object.fromEntries(
-    Object.entries(allCheckboxes).map(([key, value]) => [
-      key,
-      value.map((item) => [item.name]).sort((a, b) => a[0].localeCompare(b[0])),
-    ])
-  );
-
-  // State to store form data
   const [formData, setFormData] = useState({
     eventName: "",
     program: "",
@@ -115,6 +48,72 @@ export default function Event() {
     audioVisual: "",
   });
 
+  useEffect(() => {
+    async function fetchData() {
+      const fieldsData = await Promise.all([
+        retrieveFields("programs"),
+        retrieveFields("statuses"),
+        retrieveFields("cosponsors"),
+        retrieveFields("caterers"),
+        retrieveFields("rooms"),
+        retrieveFields("av"),
+        retrieveFields("eventtype"),
+        retrieveFields("partners"),
+        retrieveFields("custom_checklist"),
+      ]);
+
+      setAllFields({
+        programs: fieldsData[0],
+        statuses: fieldsData[1],
+        cosponsors: fieldsData[2],
+        caterers: fieldsData[3],
+        rooms: fieldsData[4],
+        audioVisual: fieldsData[5],
+        eventtype: fieldsData[6],
+      });
+
+      setAllCheckboxes({
+        partners: fieldsData[7],
+        custom_checklist: fieldsData[8],
+      });
+
+      if (eventId) {
+        try {
+          const eventData = await retrieveEventDetails(eventId);
+          setFormData(eventData);
+
+          setCheckboxValues({
+            partners: initCheckboxStateWithValues(fieldsData[7], eventData.partners),
+            custom_checklist: initCheckboxStateWithValues(fieldsData[8], eventData.customChecklist),
+          });
+        } catch (error) {
+          console.error("Error fetching event details:", error);
+        }
+      } else {
+        setCheckboxValues({
+          partners: initCheckboxState(fieldsData[7]),
+          custom_checklist: initCheckboxState(fieldsData[8]),
+        });
+      }
+
+      setIsLoading(false);
+    }
+
+    fetchData();
+  }, [eventId]);
+
+  const initCheckboxState = (items) =>
+    items.reduce((acc, item) => {
+      acc[item.name] = false;
+      return acc;
+    }, {});
+
+  const initCheckboxStateWithValues = (items, existingValues) =>
+    items.reduce((acc, item) => {
+      acc[item.name] = existingValues.includes(item.name);
+      return acc;
+    }, {});
+
   const handleCheckboxChange = (checkboxGroup, checkboxName) => {
     setCheckboxValues((prevValues) => ({
       ...prevValues,
@@ -125,7 +124,6 @@ export default function Event() {
     }));
   };
 
-  // Function to handle input changes
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -134,21 +132,15 @@ export default function Event() {
   };
 
   if (isLoading) {
-    return (
-      <div>
-        <LoadingPage></LoadingPage>
-      </div>
-    );
+    return <LoadingPage />;
   }
 
-  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const formattedCheckboxValues = Object.keys(checkboxValues).reduce(
       (acc, group) => {
         acc[group] = Object.entries(checkboxValues[group])
-          .filter(([key, value]) => value)
+          .filter(([_, value]) => value)
           .map(([key]) => key);
         return acc;
       },

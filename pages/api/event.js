@@ -1,4 +1,5 @@
 async function submitNewEvent(event) {
+
   try {
     const response = await fetch(`${process.env.API_BASE}/events`, {
       method: "POST",
