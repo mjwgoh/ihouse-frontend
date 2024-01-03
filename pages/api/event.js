@@ -21,7 +21,7 @@ async function submitNewEvent(event) {
 
 async function updateEvent(event_id, event) {
   try {
-    const response = await fetch(`${process.env.API_BASE}/events/<${event_id}>`, {
+    const response = await fetch(`${process.env.API_BASE}/events/${event_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ async function updateEvent(event_id, event) {
 
 async function retrieveEvent(event_id) {
   try {
-    const response = await fetch(`${process.env.API_BASE}/events/<${event_id}>`, {
+    const response = await fetch(`${process.env.API_BASE}/events/${event_id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

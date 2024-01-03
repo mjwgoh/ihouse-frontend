@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 import Sidebar from "@/components/sidebar";
 import TitleBar from "@/components/titlebar";
 import Dropdown from "@/components/dropdown";
-import { submitNewEvent } from "@/pages/api/event";
+import { retrieveEvent, submitNewEvent } from "@/pages/api/event";
 import { retrieveFields } from "@/pages/api/fields";
 import LoadingPage from "@/components/loading";
 import CheckboxList from "@/components/checkbox";
@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Events() {
+
   const [allFields, setAllFields] = useState({
     programs: [],
     statuses: [],
@@ -38,6 +39,10 @@ export default function Events() {
     custom_checklist: {},
   });
 
+  // Retieve event from the API
+  const { id } = router.query;
+  const [event, setEvent] = useState(null);
+
   useEffect(() => {
     async function fetchData() {
       const programs = await retrieveFields("programs");
@@ -49,7 +54,8 @@ export default function Events() {
       const eventtype = await retrieveFields("eventtype");
       const partners = await retrieveFields("partners");
       const custom_checklist = await retrieveFields("custom_checklist");
-
+ 
+      // Defines the dropdown field options
       setAllFields({
         programs,
         statuses,
@@ -60,6 +66,7 @@ export default function Events() {
         eventtype,
       });
 
+      // Defines the checkbox list options
       setAllCheckboxes({
         partners,
         custom_checklist,
@@ -78,10 +85,14 @@ export default function Events() {
       });
 
       setIsLoading(false); // Set loading to false after data is fetched
-    }
 
+      const fetchedEvent = await retrieveEvent(id);
+      setEvent(fetchedEvent);
+      console.log("Obtaining fetched event", id, fetchedEvent);
+    }
+    setEvent();
     fetchData();
-  }, []);
+  }, [id]);
 
   const sortedFieldsByName = Object.fromEntries(
     Object.entries(allFields).map(([key, value]) => [
@@ -98,6 +109,7 @@ export default function Events() {
       value.map((item) => [item.name]).sort((a, b) => a[0].localeCompare(b[0])),
     ])
   );
+
 
   // State to store form data
   const [formData, setFormData] = useState({
@@ -224,6 +236,12 @@ export default function Events() {
               onSelect={(value) => handleInputChange("program", value)}
             />
 
+            <Dropdown
+              dropdown_name={"Event Type"}
+              input_options={sortedFieldsByName.eventtype}
+              onSelect={(value) => handleInputChange("eventtype", value)}
+            />
+
             {/* Start Time (Time Select) */}
             <div>
               <h4 className="mb-2">Start Time</h4>
@@ -233,23 +251,15 @@ export default function Events() {
                 value={formData.startTime}
                 onChange={(e) => handleInputChange("startTime", e.target.value)}
               />
+
+              {/* Start Date (Date Select) */}
+              <input
+                type="date"
+                className="input-field"
+                value={formData.date}
+                onChange={(e) => handleInputChange("date", e.target.value)}
+              />
             </div>
-
-            {/* Start Date (Date Select) */}
-            <input
-              type="date"
-              className="input-field"
-              value={formData.date}
-              onChange={(e) => handleInputChange("date", e.target.value)}
-            />
-
-            {/* End Date (Date Select) */}
-            <input
-              type="date"
-              className="input-field"
-              value={formData.enddate}
-              onChange={(e) => handleInputChange("enddate", e.target.value)}
-            />
 
             <div>
               <h4 className="mb-2">End Time</h4>
@@ -259,6 +269,13 @@ export default function Events() {
                 className="input-field"
                 value={formData.endTime}
                 onChange={(e) => handleInputChange("endTime", e.target.value)}
+              />
+              {/* End Date (Date Select) */}
+              <input
+                type="date"
+                className="input-field"
+                value={formData.enddate}
+                onChange={(e) => handleInputChange("enddate", e.target.value)}
               />
             </div>
 
@@ -309,11 +326,6 @@ export default function Events() {
               dropdown_name={"Audio Visual"}
               input_options={sortedFieldsByName.audioVisual}
               onSelect={(value) => handleInputChange("audioVisual", value)}
-            />
-            <Dropdown
-              dropdown_name={"Event Type"}
-              input_options={sortedFieldsByName.eventtype}
-              onSelect={(value) => handleInputChange("eventtype", value)}
             />
           </div>
 

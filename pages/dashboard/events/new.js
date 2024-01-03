@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/sidebar";
 import TitleBar from "@/components/titlebar";
@@ -224,6 +222,12 @@ export default function Events() {
               onSelect={(value) => handleInputChange("program", value)}
             />
 
+            <Dropdown
+              dropdown_name={"Event Type"}
+              input_options={sortedFieldsByName.eventtype}
+              onSelect={(value) => handleInputChange("eventtype", value)}
+            />
+
             {/* Start Time (Time Select) */}
             <div>
               <h4 className="mb-2">Start Time</h4>
@@ -233,23 +237,15 @@ export default function Events() {
                 value={formData.startTime}
                 onChange={(e) => handleInputChange("startTime", e.target.value)}
               />
+
+              {/* Start Date (Date Select) */}
+              <input
+                type="date"
+                className="input-field"
+                value={formData.date}
+                onChange={(e) => handleInputChange("date", e.target.value)}
+              />
             </div>
-
-            {/* Start Date (Date Select) */}
-            <input
-              type="date"
-              className="input-field"
-              value={formData.date}
-              onChange={(e) => handleInputChange("date", e.target.value)}
-            />
-
-            {/* End Date (Date Select) */}
-            <input
-              type="date"
-              className="input-field"
-              value={formData.enddate}
-              onChange={(e) => handleInputChange("enddate", e.target.value)}
-            />
 
             <div>
               <h4 className="mb-2">End Time</h4>
@@ -259,6 +255,13 @@ export default function Events() {
                 className="input-field"
                 value={formData.endTime}
                 onChange={(e) => handleInputChange("endTime", e.target.value)}
+              />
+              {/* End Date (Date Select) */}
+              <input
+                type="date"
+                className="input-field"
+                value={formData.enddate}
+                onChange={(e) => handleInputChange("enddate", e.target.value)}
               />
             </div>
 
@@ -309,11 +312,6 @@ export default function Events() {
               dropdown_name={"Audio Visual"}
               input_options={sortedFieldsByName.audioVisual}
               onSelect={(value) => handleInputChange("audioVisual", value)}
-            />
-            <Dropdown
-              dropdown_name={"Event Type"}
-              input_options={sortedFieldsByName.eventtype}
-              onSelect={(value) => handleInputChange("eventtype", value)}
             />
           </div>
 
