@@ -108,6 +108,7 @@ export default function Events() {
     status: "",
     eventtype: "",
     date: "",
+    enddate: "",
     startTime: "",
     endTime: "",
     staffAccessStartTime: "",
@@ -191,14 +192,6 @@ export default function Events() {
               onChange={(e) => handleInputChange("eventName", e.target.value)}
             />
 
-            {/* Date (Date Select) */}
-            <input
-              type="date"
-              className="input-field"
-              value={formData.date}
-              onChange={(e) => handleInputChange("date", e.target.value)}
-            />
-
             {/* Event Owner (Autofill Text) */}
             <input
               type="text"
@@ -241,6 +234,22 @@ export default function Events() {
                 onChange={(e) => handleInputChange("startTime", e.target.value)}
               />
             </div>
+
+            {/* Start Date (Date Select) */}
+            <input
+              type="date"
+              className="input-field"
+              value={formData.date}
+              onChange={(e) => handleInputChange("date", e.target.value)}
+            />
+
+            {/* End Date (Date Select) */}
+            <input
+              type="date"
+              className="input-field"
+              value={formData.enddate}
+              onChange={(e) => handleInputChange("enddate", e.target.value)}
+            />
 
             <div>
               <h4 className="mb-2">End Time</h4>
