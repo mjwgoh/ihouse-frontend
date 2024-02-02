@@ -1,12 +1,12 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Dropdown({ dropdown_name, input_options, onSelect }) {
+export default function Dropdown({ dropdown_name, input_options, onSelect, activeValue = NaN }) {
 
   const [activeItem, setActiveItem] = useState(dropdown_name);
 
@@ -14,6 +14,13 @@ export default function Dropdown({ dropdown_name, input_options, onSelect }) {
     setActiveItem(option);
     onSelect(option); // Call the passed onSelect function with the selected option
   };
+
+  useEffect(() => {
+    if (activeValue) {
+      setActiveItem(activeValue);
+    }
+  }
+  , [activeValue]);
 
   return (
     <Menu as="div" className="relative inline-block text-left">

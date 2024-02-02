@@ -24,6 +24,7 @@ export default function ProgressChecklist(props) {
                 <ProgressItem
                     listname={item.listname}
                     access_url={item.access_url}
+                    key={item.step}
                     event_id={event_id}
                     email_id={email_id}
                     step={item.step}

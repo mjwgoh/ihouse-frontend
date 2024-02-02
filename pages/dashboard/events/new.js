@@ -71,8 +71,8 @@ export default function Events() {
         }, {});
 
       setCheckboxValues({
-        partners: initCheckboxState(allCheckboxes.partners),
-        custom_checklist: initCheckboxState(allCheckboxes.custom_checklist),
+        partners: initCheckboxState(partners),
+        custom_checklist: initCheckboxState(custom_checklist),
       });
 
       setIsLoading(false); // Set loading to false after data is fetched
