@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/sidebar";
 import TitleBar from "@/components/titlebar";
@@ -10,10 +8,15 @@ import { retrieveFields } from "@/pages/api/fields";
 import LoadingPage from "@/components/loading";
 import CheckboxList from "@/components/checkbox";
 import { useRouter } from "next/router";
+import ProgressItem from "@/components/progress_item";
+import { useSession } from "next-auth/react";
+import ProgressChecklist from "@/components/progress_checklist";
+import StaffingChecklist from "@/components/staffing_checklist";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Events() {
+  const { data: session, status } = useSession();
 
   const [allFields, setAllFields] = useState({
     programs: [],
@@ -25,9 +28,13 @@ export default function Events() {
     eventtype: [],
   });
 
+  // Retrieve event_id from the URL
   const router = useRouter();
+  const { id } = router.query;
 
-  const [isLoading, setIsLoading] = useState(true); // Loading state
+  // Set loading state
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const [allCheckboxes, setAllCheckboxes] = useState({
     partners: [],
@@ -40,7 +47,6 @@ export default function Events() {
   });
 
   // Retieve event from the API
-  const { id } = router.query;
   const [event, setEvent] = useState(null);
 
   useEffect(() => {
@@ -54,7 +60,7 @@ export default function Events() {
       const eventtype = await retrieveFields("eventtype");
       const partners = await retrieveFields("partners");
       const custom_checklist = await retrieveFields("custom_checklist");
- 
+
       // Defines the dropdown field options
       setAllFields({
         programs,
@@ -87,8 +93,8 @@ export default function Events() {
       setIsLoading(false); // Set loading to false after data is fetched
 
       const fetchedEvent = await retrieveEvent(id);
-      setEvent(fetchedEvent);
-      console.log("Obtaining fetched event", id, fetchedEvent);
+      setEvent(fetchedEvent); // TODO: Update event state corectly!
+      console.log(fetchedEvent);
     }
     setEvent();
     fetchData();
@@ -109,7 +115,6 @@ export default function Events() {
       value.map((item) => [item.name]).sort((a, b) => a[0].localeCompare(b[0])),
     ])
   );
-
 
   // State to store form data
   const [formData, setFormData] = useState({
@@ -193,6 +198,11 @@ export default function Events() {
 
       <div className="flex flex-col w-5/6 p-10">
         <TitleBar>New Event</TitleBar>
+
+        <div className="flex pt-10">
+          <h1>Event Details</h1>
+        </div>
+
         <form className="flex flex-col pt-4 gap-4" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             {/* Event Name (Text) */}
@@ -348,8 +358,30 @@ export default function Events() {
 
           {/* Submit Button */}
           <button type="submit" className="bg-primary px-3 py-2 text-white">
-            Create Event
+            Update Event
           </button>
+
+          <div className="flex justify-center text-sm">
+            Be aware that event information will be saved only when you press
+            the Update Event button. The progress checklist and alterations in
+            staffing are updated in real-time.
+          </div>
+
+          <div className="flex pt-5">
+            <h1>Progress Checklist</h1>
+          </div>
+
+          <ProgressChecklist event_id={id[0]} email_id={session.user.email} />
+
+          <div className="flex pt-5">
+            <h1>Staffing Requirements</h1>
+          </div>
+          
+          {/* Create Staffing Requirements Module */}
+
+          <StaffingChecklist event_id={id[0]} email_id={session.user.email}></StaffingChecklist>
+
+          <div></div>
         </form>
       </div>
     </main>

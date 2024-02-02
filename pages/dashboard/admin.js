@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import Sidebar from "@/components/sidebar";
 import TitleBar from "@/components/titlebar";
 import FieldList from "@/components/field_options";
+import EventChecklist from "@/components/admin_progress";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function Admin() {
         <FieldList listname="Event Type Options" fields="eventtype"></FieldList>
         <FieldList listname="Partner Checklist Options" fields="partners"></FieldList>
         <FieldList listname="Custom Checklist Options" fields="custom_checklist"></FieldList>
+        {/* <EventChecklist listname="Event Checklist Items" fields="event_checklist" /> */}
       </div>
     </main>
   );
