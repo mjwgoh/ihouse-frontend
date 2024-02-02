@@ -37,4 +37,3 @@ Tools used to develop the portal's design include Sketch and Hotjar. Usability s
 
 ## Security
 - Utilizes Auth.js, JWT tokens, and Google OAuth2 for secure user authentication
-- JWT tokens are sent alongside requests by the Next.js frontend, before being validated by the Flask backend
