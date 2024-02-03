@@ -164,4 +164,4 @@ async function createStaffingReq(event_id, role, req) {
   }
 }
 
-export { submitNewEvent, retrieveEvent, updateStaffing, retrieveStaffing, retrieveStaffingReq, updateStaffingReq, createStaffingReq};
+export { submitNewEvent, retrieveEvent, updateEvent, updateStaffing, retrieveStaffing, retrieveStaffingReq, updateStaffingReq, createStaffingReq};

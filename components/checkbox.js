@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-export default function CheckboxList({ list, onInputChange }) {
+export default function CheckboxList({ list, initialCheckedState, onInputChange }) {
   const [checkedState, setCheckedState] = useState(
-    new Array(list.length).fill(false)
+    initialCheckedState || new Array(list.length).fill(false)
   );
 
   const handleInputChange = (position) => {

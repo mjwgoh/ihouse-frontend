@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import Sidebar from "@/components/sidebar";
 import TitleBar from "@/components/titlebar";
 import Dropdown from "@/components/dropdown";
-import { retrieveEvent, submitNewEvent } from "@/pages/api/event";
+import { retrieveEvent, updateEvent } from "@/pages/api/event";
 import { retrieveFields } from "@/pages/api/fields";
 import LoadingPage from "@/components/loading";
 import CheckboxList from "@/components/checkbox";
@@ -46,46 +46,50 @@ export default function Events() {
     custom_checklist: {},
   });
 
-    // State to store form data
-    const [formData, setFormData] = useState({
-      eventName: "",
-      program: "",
-      eventOwner: "",
-      cosponsor: "",
-      status: "",
-      eventtype: "",
-      date: "",
-      enddate: "",
-      startTime: "",
-      endTime: "",
-      staffAccessStartTime: "",
-      staffAccessEndTime: "",
-      catering: "",
-      room: "",
-      audioVisual: "",
-    });
-  
-    const handleCheckboxChange = (checkboxGroup, checkboxName) => {
-      setCheckboxValues((prevValues) => ({
-        ...prevValues,
-        [checkboxGroup]: {
-          ...prevValues[checkboxGroup],
-          [checkboxName]: !prevValues[checkboxGroup][checkboxName],
-        },
-      }));
-    };
-  
-    // Function to handle input changes
-    const handleInputChange = (field, value) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        [field]: value,
-      }));
-    };  
+  const [initialCheckboxState, setInitialCheckboxState] = useState({
+    partners: [],
+    custom_checklist: [],
+  });
+
+  // State to store form data
+  const [formData, setFormData] = useState({
+    eventName: "",
+    program: "",
+    eventOwner: "",
+    cosponsor: "",
+    status: "",
+    eventtype: "",
+    date: "",
+    enddate: "",
+    startTime: "",
+    endTime: "",
+    staffAccessStartTime: "",
+    staffAccessEndTime: "",
+    catering: "",
+    room: "",
+    audioVisual: "",
+  });
+
+  const handleCheckboxChange = (checkboxGroup, checkboxName) => {
+    setCheckboxValues((prevValues) => ({
+      ...prevValues,
+      [checkboxGroup]: {
+        ...prevValues[checkboxGroup],
+        [checkboxName]: !prevValues[checkboxGroup][checkboxName],
+      },
+    }));
+  };
+
+  // Function to handle input changes
+  const handleInputChange = (field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
 
   useEffect(() => {
     async function fetchData() {
-
       // retrieve field data
       const programs = await retrieveFields("programs");
       const statuses = await retrieveFields("statuses");
@@ -115,9 +119,9 @@ export default function Events() {
       });
 
       // Correctly initialize checkbox states
-      const initCheckboxState = (items, init_values = NaN) =>
-        items.reduce((acc, item, index) => {
-          acc[item.name] = init_values[index] || false;
+      const initCheckboxState = (items) =>
+        items.reduce((acc, item) => {
+          acc[item.name] = false;
           return acc;
         }, {});
 
@@ -125,39 +129,41 @@ export default function Events() {
       const fetchedEvent = await retrieveEvent(id);
 
       // Set form data
-      fetchedEvent && setFormData({
-        eventName: fetchedEvent.eventName,
-        program: fetchedEvent.program,
-        eventOwner: fetchedEvent.eventOwner,
-        cosponsor: fetchedEvent.cosponsor,
-        status: fetchedEvent.status,
-        eventtype: fetchedEvent.eventtype,
-        date: new Date(fetchedEvent.date).toISOString().split('T')[0],
-        enddate: new Date(fetchedEvent.enddate).toISOString().split('T')[0],
-        startTime: fetchedEvent.startTime,
-        endTime: fetchedEvent.endTime,
-        staffAccessStartTime: fetchedEvent.staffAccessStartTime,
-        staffAccessEndTime: fetchedEvent.staffAccessEndTime,
-        catering: fetchedEvent.catering,
-        room: fetchedEvent.room,
-        audioVisual: fetchedEvent.audioVisual,
-      });
+      fetchedEvent &&
+        setFormData({
+          eventName: fetchedEvent.eventName,
+          program: fetchedEvent.program,
+          eventOwner: fetchedEvent.eventOwner,
+          cosponsor: fetchedEvent.cosponsor,
+          status: fetchedEvent.status,
+          eventtype: fetchedEvent.eventtype,
+          date: new Date(fetchedEvent.date).toISOString().split("T")[0],
+          enddate: new Date(fetchedEvent.enddate).toISOString().split("T")[0],
+          startTime: fetchedEvent.startTime,
+          endTime: fetchedEvent.endTime,
+          staffAccessStartTime: fetchedEvent.staffAccessStartTime,
+          staffAccessEndTime: fetchedEvent.staffAccessEndTime,
+          catering: fetchedEvent.catering,
+          room: fetchedEvent.room,
+          audioVisual: fetchedEvent.audioVisual,
+        });
 
-      fetchedEvent && setCheckboxValues({
-
-        partners: initCheckboxState(partners, fetchedEvent.checkboxValues.partners),
-        custom_checklist: initCheckboxState(custom_checklist, fetchedEvent.checkboxValues.custom_checklist),
+      setCheckboxValues({
+        partners: initCheckboxState(partners),
+        custom_checklist: initCheckboxState(custom_checklist),
       });
 
       setIsLoading(false); // Set loading to false after data is fetched
 
-
-      // Set checkbox values
-
+      // Set checkbox checked state
+      fetchedEvent &&
+        setInitialCheckboxState({
+          partners: fetchedEvent.checkboxValues.partners[0].split(",").map(value => value === "true"),
+          custom_checklist: fetchedEvent.checkboxValues.custom_checklist[0].split(",").map(value => value === "true"),
+        });
     }
 
     fetchData();
-
   }, [id]);
 
   const sortedFieldsByName = Object.fromEntries(
@@ -204,7 +210,7 @@ export default function Events() {
     };
 
     try {
-      const response = await submitNewEvent(submissionData);
+      const response = await updateEvent(submissionData);
       console.log(response);
 
       router.push(`/dashboard/events/${response.id}`);
@@ -373,6 +379,7 @@ export default function Events() {
             <CheckboxList
               list={sortedCheckboxesByName.partners}
               checkboxValues={checkboxValues.partners}
+              initialCheckedState={initialCheckboxState.partners}
               onInputChange={(checkboxName) =>
                 handleCheckboxChange("partners", checkboxName)
               }
@@ -380,6 +387,7 @@ export default function Events() {
             <CheckboxList
               list={sortedCheckboxesByName.custom_checklist}
               checkboxValues={checkboxValues.custom_checklist}
+              initialCheckedState={initialCheckboxState.custom_checklist}
               onInputChange={(checkboxName) =>
                 handleCheckboxChange("custom_checklist", checkboxName)
               }
@@ -396,23 +404,26 @@ export default function Events() {
             the Update Event button. The progress checklist and alterations in
             staffing are updated in real-time.
           </div>
-
-          <div className="flex pt-5">
-            <h1>Progress Checklist</h1>
-          </div>
-
-          <ProgressChecklist event_id={id[0]} email_id={session.user.email} />
-
-          <div className="flex pt-5">
-            <h1>Staffing Requirements</h1>
-          </div>
-          
-          {/* Create Staffing Requirements Module */}
-
-          <StaffingChecklist event_id={id[0]} email_id={session.user.email}></StaffingChecklist>
-
-          <div></div>
         </form>
+
+        <div className="flex p-3 pt-10">
+          <h1>Progress Checklist</h1>
+        </div>
+
+        <ProgressChecklist event_id={id[0]} email_id={session.user.email} />
+
+        <div className="flex p-3 pt-10">
+          <h1>Staffing Requirements</h1>
+        </div>
+
+        {/* Create Staffing Requirements Module */}
+
+        <StaffingChecklist
+          event_id={id[0]}
+          email_id={session.user.email}
+        ></StaffingChecklist>
+
+        <div></div>
       </div>
     </main>
   );
