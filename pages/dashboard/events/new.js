@@ -176,7 +176,7 @@ export default function Events() {
 
             {/* Start Time (Time Select) */}
             <div>
-              <h4 className="mb-2">Start Time</h4>
+              <h4 className="mb-2 text-white-100">Start Time</h4>
               <input
                 type="time"
                 className="input-field"
@@ -194,7 +194,7 @@ export default function Events() {
             </div>
 
             <div>
-              <h4 className="mb-2">End Time</h4>
+              <h4 className="mb-2 text-white-100">End Time</h4>
               {/* End Time (Time Select) */}
               <input
                 type="time"
@@ -214,7 +214,7 @@ export default function Events() {
             {/* Staff Access Start Time (Time Select) */}
 
             <div>
-              <h4 className="mb-2">Staff Access Start Time</h4>
+              <h4 className="mb-2 text-white-100">Staff Access Start Time</h4>
               <input
                 type="time"
                 className="input-field"
@@ -228,7 +228,7 @@ export default function Events() {
             {/* Staff Access End Time (Time Select) */}
 
             <div>
-              <h4 className="mb-2">Staff Access End Time</h4>
+              <h4 className="mb-2 text-white-100">Staff Access End Time</h4>
               <input
                 type="time"
                 className="input-field"

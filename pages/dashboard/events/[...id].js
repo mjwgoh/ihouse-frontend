@@ -177,7 +177,7 @@ export default function Events() {
       <div className="flex flex-col w-5/6 p-10">
         <TitleBar>New Event</TitleBar>
 
-        <div className="flex pt-10">
+        <div className="flex pt-10 text-white-100">
           <h1>Event Details</h1>
         </div>
 
@@ -236,7 +236,7 @@ export default function Events() {
 
             {/* Start Time (Time Select) */}
             <div>
-              <h4 className="mb-2">Start Time</h4>
+              <h4 className="mb-2 text-white-100">Start Time</h4>
               <input
                 type="time"
                 className="input-field"
@@ -254,7 +254,7 @@ export default function Events() {
             </div>
 
             <div>
-              <h4 className="mb-2">End Time</h4>
+              <h4 className="mb-2 text-white-100">End Time</h4>
               {/* End Time (Time Select) */}
               <input
                 type="time"
@@ -274,7 +274,7 @@ export default function Events() {
             {/* Staff Access Start Time (Time Select) */}
 
             <div>
-              <h4 className="mb-2">Staff Access Start Time</h4>
+              <h4 className="mb-2 text-white-100">Staff Access Start Time</h4>
               <input
                 type="time"
                 className="input-field"
@@ -288,7 +288,7 @@ export default function Events() {
             {/* Staff Access End Time (Time Select) */}
 
             <div>
-              <h4 className="mb-2">Staff Access End Time</h4>
+              <h4 className="mb-2 text-white-100">Staff Access End Time</h4>
               <input
                 type="time"
                 className="input-field"
@@ -343,20 +343,20 @@ export default function Events() {
             staffing are updated in real-time.
           </div>
         </form>
-
+{/* 
         <div className="flex p-3 pt-10">
           <h1>Process Checklist</h1>
         </div>
 
-        <ProcessChecklist list_options={partners}></ProcessChecklist>
+        <ProcessChecklist list_options={partners}></ProcessChecklist> */}
 
-        <div className="flex p-3 pt-10">
+        <div className="flex p-3 pt-10 text-white-100">
           <h1>Progress Checklist</h1>
         </div>
 
         <ProgressChecklist event_id={id[0]} email_id={session.user.email} />
 
-        <div className="flex p-3 pt-10">
+        <div className="flex p-3 pt-10 text-white-100">
           <h1>Staffing Requirements</h1>
         </div>
 
