@@ -57,7 +57,7 @@ export default function FieldList(props) {
   };
 
   return (
-    <div className="flex flex-col w-full border p-10 gap-3 border-white-100">
+    <div className="flex flex-col w-full border p-10 gap-3 text-white-100 border-white-100">
       <div>
         <h1>{listname}</h1>
       </div>

@@ -64,6 +64,6 @@ h1 {
 
 .primary-button {
 
-  @apply flex bg-primary hover:bg-white-100 hover:text-black-900 w-fit h-fit px-3 py-2
+  @apply flex bg-primary text-white-100 hover:bg-white-100 hover:text-black-900 w-fit h-fit px-3 py-2
 
 }
