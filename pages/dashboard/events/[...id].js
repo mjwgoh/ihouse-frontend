@@ -6,7 +6,7 @@ import Dropdown from "@/components/dropdown";
 import { retrieveEvent, updateEvent } from "@/pages/api/event";
 import { retrieveFields } from "@/pages/api/fields";
 import LoadingPage from "@/components/loading";
-import CheckboxList from "@/components/checkbox";
+import ProcessChecklist from "@/components/processChecklist";
 import { useRouter } from "next/router";
 import ProgressItem from "@/components/progress_item";
 import { useSession } from "next-auth/react";
@@ -28,6 +28,8 @@ export default function Events() {
     eventtype: [],
   });
 
+  const [partners, setPartners] = useState([]);
+
   // Retrieve event_id from the URL
   const router = useRouter();
   const { id } = router.query;
@@ -35,21 +37,6 @@ export default function Events() {
   // Set loading state
 
   const [isLoading, setIsLoading] = useState(true);
-
-  const [allCheckboxes, setAllCheckboxes] = useState({
-    partners: [],
-    custom_checklist: [],
-  });
-
-  const [checkboxValues, setCheckboxValues] = useState({
-    partners: {},
-    custom_checklist: {},
-  });
-
-  const [initialCheckboxState, setInitialCheckboxState] = useState({
-    partners: [],
-    custom_checklist: [],
-  });
 
   // State to store form data
   const [formData, setFormData] = useState({
@@ -68,17 +55,8 @@ export default function Events() {
     catering: "",
     room: "",
     audioVisual: "",
+    partners: "",
   });
-
-  const handleCheckboxChange = (checkboxGroup, checkboxName) => {
-    setCheckboxValues((prevValues) => ({
-      ...prevValues,
-      [checkboxGroup]: {
-        ...prevValues[checkboxGroup],
-        [checkboxName]: !prevValues[checkboxGroup][checkboxName],
-      },
-    }));
-  };
 
   // Function to handle input changes
   const handleInputChange = (field, value) => {
@@ -99,7 +77,6 @@ export default function Events() {
       const audioVisual = await retrieveFields("av");
       const eventtype = await retrieveFields("eventtype");
       const partners = await retrieveFields("partners");
-      const custom_checklist = await retrieveFields("custom_checklist");
 
       // Defines the dropdown field options
       setAllFields({
@@ -110,26 +87,14 @@ export default function Events() {
         rooms,
         audioVisual,
         eventtype,
-      });
-
-      // Defines the checkbox list options
-      setAllCheckboxes({
         partners,
-        custom_checklist,
       });
-
-      // Correctly initialize checkbox states
-      const initCheckboxState = (items) =>
-        items.reduce((acc, item) => {
-          acc[item.name] = false;
-          return acc;
-        }, {});
 
       // retrieve event data
       const fetchedEvent = await retrieveEvent(id);
 
-      // Set form data
-      fetchedEvent &&
+      if (fetchedEvent) {
+        // Set form data
         setFormData({
           eventName: fetchedEvent.eventName,
           program: fetchedEvent.program,
@@ -146,21 +111,23 @@ export default function Events() {
           catering: fetchedEvent.catering,
           room: fetchedEvent.room,
           audioVisual: fetchedEvent.audioVisual,
+          partners: fetchedEvent.partners,
         });
+      }
 
-      setCheckboxValues({
-        partners: initCheckboxState(partners),
-        custom_checklist: initCheckboxState(custom_checklist),
-      });
+      // // Correctly initialize checkbox states
+      // const initCheckboxState = (items) =>
+      //   items.reduce((acc, item) => {
+      //     acc[item.name] = false;
+      //     return acc;
+      //   }, {});
+
+      // setCheckboxValues({
+      //   partners: initCheckboxState(partners),
+      //   custom_checklist: initCheckboxState(custom_checklist),
+      // });
 
       setIsLoading(false); // Set loading to false after data is fetched
-
-      // Set checkbox checked state
-      fetchedEvent &&
-        setInitialCheckboxState({
-          partners: fetchedEvent.checkboxValues.partners[0].split(",").map(value => value === "true"),
-          custom_checklist: fetchedEvent.checkboxValues.custom_checklist[0].split(",").map(value => value === "true"),
-        });
     }
 
     fetchData();
@@ -172,13 +139,6 @@ export default function Events() {
       value
         .map((item) => [item.name, "#"])
         .sort((a, b) => a[0].localeCompare(b[0])),
-    ])
-  );
-
-  const sortedCheckboxesByName = Object.fromEntries(
-    Object.entries(allCheckboxes).map(([key, value]) => [
-      key,
-      value.map((item) => [item.name]).sort((a, b) => a[0].localeCompare(b[0])),
     ])
   );
 
@@ -194,23 +154,12 @@ export default function Events() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const formattedCheckboxValues = Object.keys(checkboxValues).reduce(
-      (acc, group) => {
-        acc[group] = Object.entries(checkboxValues[group])
-          .filter(([key, value]) => value)
-          .map(([key]) => key);
-        return acc;
-      },
-      {}
-    );
-
     const submissionData = {
       ...formData,
-      checkboxValues: formattedCheckboxValues,
     };
 
     try {
-      const response = await updateEvent(submissionData);
+      const response = await updateEvent(id, submissionData);
       console.log(response);
 
       router.push(`/dashboard/events/${response.id}`);
@@ -373,25 +322,14 @@ export default function Events() {
               input_options={sortedFieldsByName.audioVisual}
               onSelect={(value) => handleInputChange("audioVisual", value)}
             />
-          </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <CheckboxList
-              list={sortedCheckboxesByName.partners}
-              checkboxValues={checkboxValues.partners}
-              initialCheckedState={initialCheckboxState.partners}
-              onInputChange={(checkboxName) =>
-                handleCheckboxChange("partners", checkboxName)
-              }
-            ></CheckboxList>
-            <CheckboxList
-              list={sortedCheckboxesByName.custom_checklist}
-              checkboxValues={checkboxValues.custom_checklist}
-              initialCheckedState={initialCheckboxState.custom_checklist}
-              onInputChange={(checkboxName) =>
-                handleCheckboxChange("custom_checklist", checkboxName)
-              }
-            ></CheckboxList>
+            {/* Partner (Dropdown) */}
+            <Dropdown
+              dropdown_name={"Partner Process"}
+              input_options={sortedFieldsByName.partners}
+              activeValue={formData.partners}
+              onSelect={(value) => handleInputChange("partners", value)}
+            />
           </div>
 
           {/* Submit Button */}
@@ -405,6 +343,12 @@ export default function Events() {
             staffing are updated in real-time.
           </div>
         </form>
+
+        <div className="flex p-3 pt-10">
+          <h1>Process Checklist</h1>
+        </div>
+
+        <ProcessChecklist list_options={partners}></ProcessChecklist>
 
         <div className="flex p-3 pt-10">
           <h1>Progress Checklist</h1>

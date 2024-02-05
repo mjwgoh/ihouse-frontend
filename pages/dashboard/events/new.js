@@ -6,7 +6,7 @@ import Dropdown from "@/components/dropdown";
 import { submitNewEvent } from "@/pages/api/event";
 import { retrieveFields } from "@/pages/api/fields";
 import LoadingPage from "@/components/loading";
-import CheckboxList from "@/components/checkbox";
+import CheckboxList from "@/components/processChecklist";
 import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,21 +20,12 @@ export default function Events() {
     rooms: [],
     audioVisual: [],
     eventtype: [],
+    partners: []
   });
 
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true); // Loading state
-
-  const [allCheckboxes, setAllCheckboxes] = useState({
-    partners: [],
-    custom_checklist: [],
-  });
-
-  const [checkboxValues, setCheckboxValues] = useState({
-    partners: {},
-    custom_checklist: {},
-  });
 
   useEffect(() => {
     async function fetchData() {
@@ -46,7 +37,6 @@ export default function Events() {
       const audioVisual = await retrieveFields("av");
       const eventtype = await retrieveFields("eventtype");
       const partners = await retrieveFields("partners");
-      const custom_checklist = await retrieveFields("custom_checklist");
 
       setAllFields({
         programs,
@@ -56,23 +46,7 @@ export default function Events() {
         rooms,
         audioVisual,
         eventtype,
-      });
-
-      setAllCheckboxes({
         partners,
-        custom_checklist,
-      });
-
-      // Correctly initialize checkbox states
-      const initCheckboxState = (items) =>
-        items.reduce((acc, item) => {
-          acc[item.name] = false;
-          return acc;
-        }, {});
-
-      setCheckboxValues({
-        partners: initCheckboxState(partners),
-        custom_checklist: initCheckboxState(custom_checklist),
       });
 
       setIsLoading(false); // Set loading to false after data is fetched
@@ -87,13 +61,6 @@ export default function Events() {
       value
         .map((item) => [item.name, "#"])
         .sort((a, b) => a[0].localeCompare(b[0])),
-    ])
-  );
-
-  const sortedCheckboxesByName = Object.fromEntries(
-    Object.entries(allCheckboxes).map(([key, value]) => [
-      key,
-      value.map((item) => [item.name]).sort((a, b) => a[0].localeCompare(b[0])),
     ])
   );
 
@@ -116,16 +83,6 @@ export default function Events() {
     audioVisual: "",
   });
 
-  const handleCheckboxChange = (checkboxGroup, checkboxName) => {
-    setCheckboxValues((prevValues) => ({
-      ...prevValues,
-      [checkboxGroup]: {
-        ...prevValues[checkboxGroup],
-        [checkboxName]: !prevValues[checkboxGroup][checkboxName],
-      },
-    }));
-  };
-
   // Function to handle input changes
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
@@ -146,19 +103,8 @@ export default function Events() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const formattedCheckboxValues = Object.keys(checkboxValues).reduce(
-      (acc, group) => {
-        acc[group] = Object.entries(checkboxValues[group])
-          .filter(([key, value]) => value)
-          .map(([key]) => key);
-        return acc;
-      },
-      {}
-    );
-
     const submissionData = {
       ...formData,
-      checkboxValues: formattedCheckboxValues,
     };
 
     try {
@@ -313,23 +259,13 @@ export default function Events() {
               input_options={sortedFieldsByName.audioVisual}
               onSelect={(value) => handleInputChange("audioVisual", value)}
             />
-          </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <CheckboxList
-              list={sortedCheckboxesByName.partners}
-              checkboxValues={checkboxValues.partners}
-              onInputChange={(checkboxName) =>
-                handleCheckboxChange("partners", checkboxName)
-              }
-            ></CheckboxList>
-            <CheckboxList
-              list={sortedCheckboxesByName.custom_checklist}
-              checkboxValues={checkboxValues.custom_checklist}
-              onInputChange={(checkboxName) =>
-                handleCheckboxChange("custom_checklist", checkboxName)
-              }
-            ></CheckboxList>
+            {/* Partner (Dropdown) */}
+            <Dropdown
+              dropdown_name={"Partner Process"}
+              input_options={sortedFieldsByName.partners}
+              onSelect={(value) => handleInputChange("partners", value)}
+            />
           </div>
 
           {/* Submit Button */}
