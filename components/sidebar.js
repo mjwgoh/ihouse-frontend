@@ -30,7 +30,7 @@ export default function Sidebar() {
           ></Image>
         </div>
         <Link href={"/dashboard"}><div className={`side-menu-button ${asPath === '/dashboard' ? 'bg-primary' : ''}`}>Dashboard</div></Link>
-        <Link href={"/dashboard/apps"}><div className={`side-menu-button ${asPath === '/dashboard/apps' ? 'bg-primary' : ''}`}>Apps</div></Link>
+        {/* <Link href={"/dashboard/apps"}><div className={`side-menu-button ${asPath === '/dashboard/apps' ? 'bg-primary' : ''}`}>Apps</div></Link> */}
         <Link href={"/dashboard/events"}><div className={`side-menu-button ${asPath === '/dashboard/events' ? 'bg-primary' : ''}`}>Events</div></Link>
         <Link href={"/dashboard/users"}><div className={`side-menu-button ${asPath === '/dashboard/users' ? 'bg-primary' : ''}`}>Users</div></Link>
         <Link href={"/dashboard/admin"}><div className={`side-menu-button ${asPath === '/dashboard/admin' ? 'bg-primary' : ''}`}>Admin</div></Link>
