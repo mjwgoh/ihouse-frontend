@@ -333,7 +333,7 @@ export default function Events() {
           </div>
 
           {/* Submit Button */}
-          <button type="submit" className="bg-primary px-3 py-2 text-white">
+          <button type="submit" className="bg-primary px-3 py-2 text-white-100">
             Update Event
           </button>
 

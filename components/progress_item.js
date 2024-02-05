@@ -87,7 +87,8 @@ export default function ProgressItem(props) {
             }
           }}
           >
-            {add_del == "add" ? "Staff Myself" : "Unstaff Myself"}
+            Staff Myself
+            {/* {add_del == "add" ? "Staff Myself" : "Unstaff Myself"} */}
           </button> 
           {/* <button
             className="p-4 px-6 h-full bg-gray-700 text-white-100 hover:bg-black-900"

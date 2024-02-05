@@ -71,7 +71,8 @@ export default function StaffingItem({ event_id, email_id, field_name }) {
               }
             }}
           >
-            {add_del == "add" ? "Staff Myself" : "Unstaff Myself"}
+            Staff Myself
+            {/* {add_del == "add" ? "Staff Myself" : "Unstaff Myself"} */}
           </button>
         </div>
 
