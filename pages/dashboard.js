@@ -59,7 +59,7 @@ export default function Dashboard() {
       <div className="flex flex-col w-5/6 p-10 gap-3">
         <TitleBar>Welcome {userName}</TitleBar>
 
-        <div className="flex flex-col w-full border p-10 gap-5 border-white-100">
+        <div className="flex flex-col w-full border p-10 gap-5 border-white-100 text-white-100">
           <div>
             <h1>Upcoming Events</h1>
           </div>
@@ -70,7 +70,7 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
-        <div className="flex flex-col w-full border p-10 gap-5 border-white-100">
+        <div className="flex flex-col w-full border p-10 gap-5 border-white-100 text-white-100">
           <div>
             <h1>Action Items</h1>
           </div>
