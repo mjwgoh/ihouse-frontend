@@ -77,13 +77,13 @@ export default function LoadingPage() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-black-900">
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="flex flex-row items-center justify-center pb-10">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white-900"></div>
         </div>
         <div className="flex flex-row items-center justify-center">
-          <div className="text-2xl text-white-900">{randomMessage}</div>
+          <div className="text-2xl text-white-100">{randomMessage}</div>
         </div>
       </div>
       <div className="flex align-bottom w-screen justify-center pb-10">
