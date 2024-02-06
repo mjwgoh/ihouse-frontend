@@ -160,7 +160,7 @@ export default function Events() {
 
     try {
       const response = await updateEvent(id, submissionData);
-      router.push(`/dashboard/events/${id}`);
+      router.push(`/dashboard/events/${id[0]}`);
     } catch (error) {
       console.error(error);
     }
