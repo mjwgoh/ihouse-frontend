@@ -160,8 +160,10 @@ export default function Events() {
 
     try {
       const response = await updateEvent(id, submissionData);
+      alert('Event updated successfully!');
       router.push(`/dashboard/events/${id[0]}`);
     } catch (error) {
+      alert('Event update unsuccessful');
       console.error(error);
     }
   };
@@ -336,7 +338,7 @@ export default function Events() {
           </button>
 
           <div className="flex justify-center text-sm">
-            Be aware that event information will be saved only when you press
+            Event information will only be saved when you press
             the Update Event button. The progress checklist and alterations in
             staffing are updated in real-time.
           </div>
