@@ -283,6 +283,9 @@ export default function Events() {
             Create Event
           </button>
         </form>
+        <div className="flex text-white-100 text-center justify-center pt-5">
+          Please note that the start and end timings need to be inputed in order to create the event.
+        </div>
       </div>
     </main>
   );

@@ -175,7 +175,7 @@ export default function Events() {
       </div>
 
       <div className="flex flex-col w-5/6 p-10">
-        <TitleBar>New Event</TitleBar>
+        <TitleBar>Edit {formData.eventName}</TitleBar>
 
         <div className="flex pt-10 text-white-100">
           <h1>Event Details</h1>
