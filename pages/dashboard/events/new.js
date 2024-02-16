@@ -154,12 +154,12 @@ export default function Events() {
               }
             />
 
-            {/* Cosponsor (Dropdown) */}
+            {/* Cosponsor (Dropdown)
             <Dropdown
               dropdown_name={"Cosponsor"}
               input_options={sortedFieldsByName.cosponsor}
               onSelect={(value) => handleInputChange("cosponsor", value)}
-            />
+            /> */}
 
             {/* Cosponsor (Input) */}
 
