@@ -228,7 +228,7 @@ export default function Events() {
             />
 
             <Dropdown
-              dropdown_name={"Event Type"}
+              dropdown_name={"Audience"}
               activeValue={formData.eventtype}
               input_options={sortedFieldsByName.eventtype}
               onSelect={(value) => handleInputChange("eventtype", value)}

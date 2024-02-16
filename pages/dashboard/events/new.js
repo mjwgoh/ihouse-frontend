@@ -169,7 +169,7 @@ export default function Events() {
             />
 
             <Dropdown
-              dropdown_name={"Event Type"}
+              dropdown_name={"Audience"}
               input_options={sortedFieldsByName.eventtype}
               onSelect={(value) => handleInputChange("eventtype", value)}
             />
