@@ -64,7 +64,6 @@ export default function StaffingItem({ event_id, email_id, field_name }) {
                 );
                 setUpdated((prevUpdated) => prevUpdated + 1);
               } else {
-                console.log("removing");
                 setStaffed((prevStaffing) =>
                 Array.isArray(prevStaffing) ? prevStaffing.filter((staff) => staff !== email_id) : []
                 );
