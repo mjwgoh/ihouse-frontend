@@ -157,8 +157,18 @@ export default function Events() {
             {/* Cosponsor (Dropdown) */}
             <Dropdown
               dropdown_name={"Cosponsor"}
-              input_options={sortedFieldsByName.cosponsors}
+              input_options={sortedFieldsByName.cosponsor}
               onSelect={(value) => handleInputChange("cosponsor", value)}
+            />
+
+            {/* Cosponsor (Input) */}
+
+<input
+              type="text"
+              placeholder="Cosponsors"
+              className="input-field"
+              value={formData.eventOwner}
+              onChange={(e) => handleInputChange("cosponsors", e.target.value)}
             />
 
             {/* Program (Dropdown) */}
