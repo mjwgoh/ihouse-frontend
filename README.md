@@ -2,8 +2,6 @@
 
 ![image](https://github.com/mjwgoh/ihouse-frontend/assets/86610705/21eddd72-1ba4-400b-85a7-4a499b6b461c)
 ![image](https://github.com/mjwgoh/ihouse-frontend/assets/86610705/620b56d8-47e6-45a1-bc70-7c2fad05c032)
-![image](https://github.com/mjwgoh/ihouse-frontend/assets/86610705/a4e58dae-8246-4b63-8154-58c78bb9f7da)
-
 
 ## Overview
 The International House Admin Panel is a full-stack portal designed and developed for the University of Chicago's International House. It facilitates efficient event and staff management and is used in production by 100+ staff and fellows, streamlining administrative tasks and enhancing communication. 
