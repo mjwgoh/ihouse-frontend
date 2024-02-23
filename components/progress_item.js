@@ -10,9 +10,11 @@ export default function ProgressItem(props) {
     step = "",
   } = props;
   const [staffing, setStaffing] = useState([]);
-  const [complete, setComplete] = useState(false);
+  const [complete, setComplete] = useState(0);
   const [updated, setUpdated] = useState(0);
   const [add_del, setAddDel] = useState("add");
+  const [completion, setCompletion] = useState("add");
+  const [completeColor, setCompleteColor] = useState("bg-gray-800 text-white-100");
 
   // useEffect(() => {
   //   {
@@ -30,10 +32,17 @@ export default function ProgressItem(props) {
       const staffList = Object.values(response)[0];
       setStaffing(staffList);
 
-      if (staffList.includes(email_id)) {
-        setAddDel("del");
-        console.log("del");
+      // if (staffList.includes(email_id)) {
+      //   setAddDel("del");
+      //   console.log("del");
+      // }
+
+      if (staffList.includes("complete")) {
+        setCompleteColor("bg-green-800 text-white-100");
+        setCompletion("del");
       }
+
+
     }
 
     fetchStaffing();
@@ -53,10 +62,23 @@ export default function ProgressItem(props) {
 
   }, [updated]);
 
+  useEffect(() => {
+    {
+      /* Upon update of staffing list, send update to server */
+    }
+
+    if (complete > 0) {
+      updateStaffing(event_id, "complete", step, completion);
+    }
+
+    setCompletion(completion => completion == "add" ? "del" : "add");
+
+  }, [complete]);
+
   return (
     <div
       className={`flex flex-col ${
-        complete ? "bg-green-800 text-white-100" : "bg-gray-800 text-white-100"
+        completeColor
       }`}
     >
       <div className="flex">
@@ -90,6 +112,32 @@ export default function ProgressItem(props) {
             Staff Myself
             {/* {add_del == "add" ? "Staff Myself" : "Unstaff Myself"} */}
           </button> 
+
+          <button
+            className="p-4 px-6 h-full bg-gray-700 text-white-100 hover:bg-black-900"
+            onClick={() => {
+
+              if (completion == "add") {
+                setStaffing((prevStaffing) =>
+                prevStaffing ? [...prevStaffing, "complete"] : ["complete"]
+              );
+              setComplete(prevCompleted => prevCompleted + 1);
+              
+              } else {
+                setStaffing((prevStaffing) =>
+                prevStaffing.filter((staff) => staff !== "complete")
+              );
+              setComplete(prevCompleted => prevCompleted + 1);
+              
+            }
+          }}
+          >
+            Mark Complete
+            {/* {add_del == "add" ? "Staff Myself" : "Unstaff Myself"} */}
+          </button> 
+
+
+
           {/* <button
             className="p-4 px-6 h-full bg-gray-700 text-white-100 hover:bg-black-900"
             onClick={() => setComplete(!complete)}
